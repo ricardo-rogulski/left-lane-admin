@@ -29,5 +29,8 @@ export default props =>
             <Link to="/cities">
                 <i className="fa fa-industry"></i> Cidades
             </Link>
+            <Link to="/users">
+                <i className="fa fa-industry"></i> Usuarios
+            </Link>
         </nav>
     </aside>

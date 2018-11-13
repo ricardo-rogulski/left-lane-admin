@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Main from '../template/Main'
+import { getAxiosInstance } from '../../services';
 
 const headerProps = {
     icon: 'hour',
@@ -22,11 +22,11 @@ export default class ModelCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-        axios(baseUrl).then(resp => {
+        getAxiosInstance()(baseUrl).then(resp => {
             //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })
-        axios(makesUrl).then(resp => {
+        getAxiosInstance()(makesUrl).then(resp => {
             this.setState({ makesList: resp.data })
         })
     }
@@ -40,7 +40,7 @@ export default class ModelCrud extends Component {
         const method = model._id ? 'put' : 'post'
         const url = model._id ? `${baseUrl}/${model._id}` : baseUrl
 
-        axios[method](url, model)
+        getAxiosInstance()[method](url, model)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
                 //Zera o user do initial state, e seta  a lista atualizada.
@@ -136,7 +136,7 @@ export default class ModelCrud extends Component {
     }
 
     remove(model){
-        axios.delete(`${baseUrl}/${model._id}`).then(resp => {
+        getAxiosInstance().delete(`${baseUrl}/${model._id}`).then(resp => {
             const list = this.state.list.filter(u => u !== model)
             //const list = this.getUpdatedList(user, false)
             this.setState({ list })

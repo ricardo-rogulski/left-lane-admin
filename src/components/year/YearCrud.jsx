@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Main from '../template/Main'
+import { getAxiosInstance } from '../../services';
 
 const headerProps = {
     icon: 'hour',
@@ -20,7 +20,7 @@ export default class YearCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-        axios(baseUrl).then(resp => {
+        getAxiosInstance()(baseUrl).then(resp => {
             //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })
@@ -37,7 +37,7 @@ export default class YearCrud extends Component {
 
         console.log("Url: "+url);
 
-        axios[method](url, year)
+        getAxiosInstance()[method](url, year)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
                 //Zera o user do initial state, e seta  a lista atualizada.
@@ -118,7 +118,7 @@ export default class YearCrud extends Component {
     }
 
     remove(year){
-        axios.delete(`${baseUrl}/${year._id}`).then(resp => {
+        getAxiosInstance().delete(`${baseUrl}/${year._id}`).then(resp => {
             const list = this.state.list.filter(u => u !== year)
             //const list = this.getUpdatedList(user, false)
             this.setState({ list })

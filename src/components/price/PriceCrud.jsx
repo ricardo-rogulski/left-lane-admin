@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Main from '../template/Main'
+import { getAxiosInstance } from '../../services';
 
 const headerProps = {
     icon: 'hour',
@@ -20,7 +20,7 @@ export default class PriceCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-        axios(baseUrl).then(resp => {
+        getAxiosInstance()(baseUrl).then(resp => {
             //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })
@@ -37,7 +37,7 @@ export default class PriceCrud extends Component {
 
         console.log("Url: "+url);
 
-        axios[method](url, price)
+        getAxiosInstance()[method](url, price)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
                 //Zera o user do initial state, e seta  a lista atualizada.
@@ -138,7 +138,7 @@ export default class PriceCrud extends Component {
     }
 
     remove(price){
-        axios.delete(`${baseUrl}/${price._id}`).then(resp => {
+        getAxiosInstance().delete(`${baseUrl}/${price._id}`).then(resp => {
             const list = this.state.list.filter(u => u !== price)
             //const list = this.getUpdatedList(user, false)
             this.setState({ list })

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router'
+import { PrivateRoute } from '../services/PrivateRoute';
 
 import Home from '../components/home/Home'
 import UserCrud from '../components/user/UserCrud'
@@ -10,17 +11,19 @@ import MileageCrud from '../components/mileage/MileageCrud'
 import PriceCrud from '../components/price/PriceCrud'
 import StateCrud from '../components/state/StateCrud'
 import CityCrud from '../components/city/CityCrud'
+import LoginPage from '../components/login/LoginPage'
 
 export default props =>
     <Switch>
-        <Route exact path='/' component={Home} />
-        <Route path='/makes' component={MakeCrud} />
-        <Route path='/models' component={ModelCrud} />
-        <Route path='/years' component={YearCrud} />
-        <Route path='/mileages' component={MileageCrud} />
-        <Route path='/prices' component={PriceCrud} />
-        <Route path='/states' component={StateCrud} />
-        <Route path='/cities' component={CityCrud} />
-        <Route path='/users' component={UserCrud} />
+        <PrivateRoute exact path='/' component={Home} />
+        <PrivateRoute path='/makes' component={MakeCrud} />
+        <PrivateRoute path='/models' component={ModelCrud} />
+        <PrivateRoute path='/years' component={YearCrud} />
+        <PrivateRoute path='/mileages' component={MileageCrud} />
+        <PrivateRoute path='/prices' component={PriceCrud} />
+        <PrivateRoute path='/states' component={StateCrud} />
+        <PrivateRoute path='/cities' component={CityCrud} />
+        <PrivateRoute path='/users' component={UserCrud} />
+        <Route path='/login' component={LoginPage} />
         <Redirect from='*' to='/' />
     </Switch>

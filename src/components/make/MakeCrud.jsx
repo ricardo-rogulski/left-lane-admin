@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import Main from '../template/Main'
+import { getAxiosInstance } from '../../services';
 
 const headerProps = {
     icon: 'hour',
@@ -11,7 +11,7 @@ const headerProps = {
 const baseUrl = 'http://localhost:3003/api/makes'
 
 const initialState = {
-    make: { name: '', searchActive: ''},
+    make: { name: '', searchActive: ''},   
     list: []
 }
 
@@ -20,10 +20,11 @@ export default class MakeCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-        axios(baseUrl).then(resp => {
-            //O que recebe no resp.data ele coloca na lista.
-            this.setState({ list: resp.data })
-        })
+
+        getAxiosInstance().get(baseUrl)
+            .then(resp => {
+                this.setState({ list: resp.data })
+            })
     }
 
     clear() {
@@ -37,7 +38,7 @@ export default class MakeCrud extends Component {
 
         console.log("Url: "+url);
 
-        axios[method](url, make)
+        getAxiosInstance()[method](url, make)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
                 //Zera o user do initial state, e seta  a lista atualizada.
@@ -118,7 +119,7 @@ export default class MakeCrud extends Component {
     }
 
     remove(make){
-        axios.delete(`${baseUrl}/${make._id}`).then(resp => {
+        getAxiosInstance().delete(`${baseUrl}/${make._id}`).then(resp => {
             const list = this.state.list.filter(u => u !== make)
             //const list = this.getUpdatedList(user, false)
             this.setState({ list })
