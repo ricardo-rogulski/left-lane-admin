@@ -9,8 +9,12 @@ const headerProps = {
     subtitle: 'Cadastro de usuários: Incluir, Listar, Alterar e Excluir!'
 }
 
-const baseUrl = 'http://localhost:3003/api/adminUsers'
-var apiUrl = 'http://localhost:3003/oapi'
+//const baseUrl = 'http://localhost:3003/api/adminUsers'
+//var apiUrl = 'http://localhost:3003/oapi'
+
+const baseUrl = 'http://35.198.6.163:3003/api/adminUsers'
+var apiUrl = 'http://35.198.6.163:3003/oapi'
+
 
 const initialState = {
     user: { name: '', email: '', password: ''},
@@ -23,6 +27,7 @@ export default class UserCrud extends Component {
 
     componentWillMount(){
         getAxiosInstance()(baseUrl).then(resp => {
+        //axios(baseUrl).then(resp => {
             //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })
@@ -49,6 +54,7 @@ export default class UserCrud extends Component {
     
         } else {
             getAxiosInstance()[method](url, user)
+            //axios[method](url, user)
                 .then(resp => {
                     const list = this.getUpdatedList(resp.data)
                 //Zera o user do initial state, e seta  a lista atualizada.
@@ -134,6 +140,7 @@ export default class UserCrud extends Component {
 
     remove(user){
         getAxiosInstance().delete(`${baseUrl}/${user._id}`).then(resp => {
+        //axios.delete(`${baseUrl}/${user._id}`).then(resp => {
             const list = this.state.list.filter(u => u !== user)
             //const list = this.getUpdatedList(user, false)
             this.setState({ list })

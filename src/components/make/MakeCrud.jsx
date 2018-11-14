@@ -8,7 +8,7 @@ const headerProps = {
     subtitle: 'Cadastro de fabricantes'
 }
 
-const baseUrl = 'http://localhost:3003/api/makes'
+const baseUrl = 'http://35.198.6.163:3003/api/makes'
 
 const initialState = {
     make: { name: '', searchActive: ''},   

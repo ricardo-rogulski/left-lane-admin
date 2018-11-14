@@ -8,7 +8,7 @@ const headerProps = {
     subtitle: 'Cadastro de faixas de kilometragem'
 }
 
-const baseUrl = 'http://localhost:3003/api/mileages'
+const baseUrl = 'http://35.198.6.163:3003/api/mileages'
 
 const initialState = {
     mileage: { name: '', searchActive: '', minValue: '', maxValue: ''},

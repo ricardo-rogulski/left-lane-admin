@@ -6,7 +6,7 @@ export const userService = {
     getAll
 };
 
-var apiUrl = 'http://localhost:3003/oapi'
+var apiUrl = 'http://35.198.6.163:3003/oapi'
 
 function login(email, password) {
     const requestOptions = {

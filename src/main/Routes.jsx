@@ -23,7 +23,7 @@ export default props =>
         <PrivateRoute path='/prices' component={PriceCrud} />
         <PrivateRoute path='/states' component={StateCrud} />
         <PrivateRoute path='/cities' component={CityCrud} />
-        <PrivateRoute path='/users' component={UserCrud} />
+        <Route path='/users' component={UserCrud} />
         <Route path='/login' component={LoginPage} />
         <Redirect from='*' to='/' />
     </Switch>

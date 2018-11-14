@@ -8,7 +8,7 @@ const headerProps = {
     subtitle: 'Cadastro de anos (modelo)'
 }
 
-const baseUrl = 'http://localhost:3003/api/years'
+const baseUrl = 'http://35.198.6.163:3003/api/years'
 
 const initialState = {
     year: { name: '', searchActive: ''},

@@ -8,7 +8,7 @@ const headerProps = {
     subtitle: 'Cadastro de faixa de preços'
 }
 
-const baseUrl = 'http://localhost:3003/api/prices'
+const baseUrl = 'http://35.198.6.163:3003/api/prices'
 
 const initialState = {
     price: { name: '', searchActive: '', minValue: '', maxValue: ''},

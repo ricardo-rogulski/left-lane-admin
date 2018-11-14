@@ -10,7 +10,7 @@ const headerProps = {
     subtitle: 'Cadastro de estados (UF)'
 }
 
-const baseUrl = 'http://localhost:3003/api/states'
+const baseUrl = 'http://35.198.6.163:3003/api/states'
 
 const initialState = {
     state: { name: '', searchActive: ''},
