@@ -3,14 +3,14 @@ import { Switch, Route, Redirect } from 'react-router'
 import { PrivateRoute } from '../services/PrivateRoute';
 
 import Home from '../components/home/Home'
-import UserCrud from '../components/user/UserCrud'
+import AdminUserCrud from '../components/adminUser/AdminUserCrud'
 import ModelCrud from '../components/model/ModelCrud'
 import MakeCrud from '../components/make/MakeCrud'
 import YearCrud from '../components/year/YearCrud'
 import MileageCrud from '../components/mileage/MileageCrud'
 import PriceCrud from '../components/price/PriceCrud'
 import StateCrud from '../components/state/StateCrud'
-import CityCrud from '../components/city/CityCrud'
+import RegionCrud from '../components/region/RegionCrud'
 import LoginPage from '../components/login/LoginPage'
 
 export default props =>
@@ -22,8 +22,8 @@ export default props =>
         <PrivateRoute path='/mileages' component={MileageCrud} />
         <PrivateRoute path='/prices' component={PriceCrud} />
         <PrivateRoute path='/states' component={StateCrud} />
-        <PrivateRoute path='/cities' component={CityCrud} />
-        <PrivateRoute path='/users' component={UserCrud} />
+        <PrivateRoute path='/regions' component={RegionCrud} />
+        <PrivateRoute path='/adminusers' component={AdminUserCrud} />
         <Route path='/login' component={LoginPage} />
         <Redirect from='*' to='/' />
     </Switch>

@@ -1,6 +1,14 @@
 import React from 'react';
+import Main from '../template/Main'
 
 import { userService } from '../../services';
+
+const headerProps = {
+    icon: 'hour',
+    title: 'Login',
+    subtitle: 'Faça seu login'
+}
+
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -29,7 +37,7 @@ class LoginPage extends React.Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { email, password, returnUrl } = this.state;
+        const { email, password } = this.state;
 
         // stop here if form is invalid
         if (!(email && password)) {
@@ -51,15 +59,13 @@ class LoginPage extends React.Component {
     render() {
         const { email, password, submitted, loading, error } = this.state;
         return (
+
+            <Main{...headerProps}>
+
             <div className="col-md-6 col-md-offset-3">
-                <div className="alert alert-info">
-                    Email: test<br />
-                    Password: test
-                </div>
-                <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !email ? ' has-error' : '')}>
-                        <label htmlFor="email">email</label>
+                        <label htmlFor="email">Email</label>
                         <input type="text" className="form-control" name="email" value={email} onChange={this.handleChange} />
                         {submitted && !email &&
                             <div className="help-block">email is required</div>
@@ -83,6 +89,8 @@ class LoginPage extends React.Component {
                     }
                 </form>
             </div>
+
+            </Main>
         );
     }
 }

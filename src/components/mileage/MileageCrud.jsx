@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getMileageUrl } from '../../services';
 
 const headerProps = {
     icon: 'hour',
-    title: 'Mileages',
+    title: 'Kilometragem',
     subtitle: 'Cadastro de faixas de kilometragem'
 }
 
-const baseUrl = 'http://localhost:3003/api/mileages'
+const baseUrl = getMileageUrl()
 
 const initialState = {
     mileage: { name: '', searchActive: '', minValue: '', maxValue: ''},

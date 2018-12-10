@@ -1,12 +1,16 @@
-import { authHeader } from './';
+import { authHeader, getLoginServiceUrl } from './';
 
 export const userService = {
     login,
     logout,
+    logoff,
     getAll
 };
 
-var apiUrl = 'http://localhost:3003/oapi'
+function getApiUrl(){
+    return getLoginServiceUrl()
+}
+
 
 function login(email, password) {
     const requestOptions = {
@@ -15,7 +19,7 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
-    return fetch(`${apiUrl}/login`, requestOptions)
+    return fetch(`${getApiUrl()}/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a user in the response
@@ -32,16 +36,21 @@ function login(email, password) {
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    localStorage.removeItem('user')
 }
+
+function logoff(){
+    logout()
+    window.location.reload(true)
+}
+
 
 function getAll() {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
-
-    return fetch(`${apiUrl}/users`, requestOptions).then(handleResponse);
+    return fetch(`${getApiUrl()}/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
@@ -50,14 +59,12 @@ function handleResponse(response) {
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
-                logout();
-                window.location.reload(true);
+                logout()
+                window.location.reload(true)
             }
-
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
-
         return data;
     });
 }

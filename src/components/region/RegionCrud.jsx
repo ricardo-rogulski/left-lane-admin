@@ -1,29 +1,28 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getStateUrl, getRegionUrl } from '../../services';
 
 const headerProps = {
     icon: 'hour',
-    title: 'Cities',
-    subtitle: 'Cadastro de fabricantes'
+    title: 'Regiões',
+    subtitle: 'Cadastro de Regiões'
 }
 
-const baseUrl = 'http://localhost:3003/api/cities'
-const statesUrl = 'http://localhost:3003/api/states'
+const baseUrl = getRegionUrl()
+const statesUrl = getStateUrl()
 
 const initialState = {
-    city: { name: '', searchActive: '', stateId: '', stateName: ''},
+    region: { name: '', searchActive: '', stateId: '', stateName: ''},
     list: [], 
     statesList: []
 }
 
-export default class CityCrud extends Component {
+export default class RegionCrud extends Component {
 
     state = { ...initialState }
 
     componentWillMount(){
         getAxiosInstance()(baseUrl).then(resp => {
-            //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })
         getAxiosInstance()(statesUrl).then(resp => {
@@ -32,49 +31,49 @@ export default class CityCrud extends Component {
     }
 
     clear() {
-        this.setState({ city: initialState.city })
+        this.setState({ region: initialState.region })
     }
 
     save() {
-        const city = this.state.city
-        const method = city._id ? 'put' : 'post'
-        const url = city._id ? `${baseUrl}/${city._id}` : baseUrl
+        const region = this.state.region
+        const method = region._id ? 'put' : 'post'
+        const url = region._id ? `${baseUrl}/${region._id}` : baseUrl
 
-        getAxiosInstance()[method](url, city)
+        getAxiosInstance()[method](url, region)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
                 //Zera o user do initial state, e seta  a lista atualizada.
-                this.setState({ city: initialState.city, list })
+                this.setState({ region: initialState.region, list })
             })
     }
 
-    getUpdatedList(city){
+    getUpdatedList(region){
         //Retorna uma lista com todos os elementos menos o atual.
-        const list = this.state.list.filter(u => u._id !== city._id)
+        const list = this.state.list.filter(u => u._id !== region._id)
 
         //Coloca o elemento na primeira posição da lista.
-        if (city) list.unshift(city)
+        if (region) list.unshift(region)
 
         return list
     }
 
     updateField(event) {
         if (event.target.type === 'text'){
-            const city = { ...this.state.city }
-            city[event.target.name] = event.target.value
-            this.setState({ city })
+            const region = { ...this.state.region }
+            region[event.target.name] = event.target.value
+            this.setState({ region })
         }
         if (event.target.type === 'checkbox'){
-            const city = { ...this.state.city }
-            city[event.target.name] = event.target.value === 'true' ? false : true //Inversion.
-            this.setState({ city })
+            const region = { ...this.state.region }
+            region[event.target.name] = event.target.value === 'true' ? false : true //Inversion.
+            this.setState({ region })
         }
         //Como só tem 1 select, já sei que as informações são do state.
         if (event.target.type === 'select-one'){
-            const city = { ...this.state.city }
-            city.stateId = event.target.value
-            city.stateName = event.target.selectedOptions[0].text;
-            this.setState({ city })
+            const region = { ...this.state.region }
+            region.stateId = event.target.value
+            region.stateName = event.target.selectedOptions[0].text;
+            this.setState({ region })
         }
 
     }
@@ -86,30 +85,30 @@ export default class CityCrud extends Component {
                 <div className="col-12 col-md-4">
                         <div className="formGroup">
                             <label>Estado</label>
-                            <select className="form-control" name="state" value={this.state.city.stateId}
+                            <select className="form-control" name="state" value={this.state.region.stateId}
                                 onChange={e => this.updateField(e)} required>
                                     <option value="-1">Selecione</option>
                                     {this.renderStatesToSelect()}
                             </select>
                         </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-6">
                         <div className="formGroup">
-                            <label>Cidade</label>
+                            <label>Região</label>
                             <input type="text" className="form-control" 
                                 name="name"
-                                value={this.state.city.name}
+                                value={this.state.region.name}
                                 onChange={e => this.updateField(e)}
-                                placeholder="Digite a cidade" />
+                                placeholder="Digite a região" />
                         </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-2">
                         <div className="formGroup">
                             <label className="centered">Ativo</label>
                             <input type="checkbox" className="form-control" 
                                 name="searchActive"
-                                value={this.state.city.searchActive}
-                                checked={this.state.city.searchActive === true}
+                                value={this.state.region.searchActive}
+                                checked={this.state.region.searchActive === true}
                                 onChange={e => this.updateField(e)} />
                         </div>
                     </div>
@@ -131,13 +130,13 @@ export default class CityCrud extends Component {
         )
     }
 
-    load(city){
-        this.setState({ city })
+    load(region){
+        this.setState({ region })
     }
 
-    remove(city){
-        getAxiosInstance().delete(`${baseUrl}/${city._id}`).then(resp => {
-            const list = this.state.list.filter(u => u !== city)
+    remove(region){
+        getAxiosInstance().delete(`${baseUrl}/${region._id}`).then(resp => {
+            const list = this.state.list.filter(u => u !== region)
             //const list = this.getUpdatedList(user, false)
             this.setState({ list })
         })
@@ -149,7 +148,7 @@ export default class CityCrud extends Component {
                 <thead>
                     <tr>
                         <th>Estado</th>
-                        <th>Cidade</th>
+                        <th>Região</th>
                         <th>Ativo</th>
                         <th>Ações</th>
                     </tr>
@@ -162,19 +161,19 @@ export default class CityCrud extends Component {
     }
 
     renderRows(){
-        return this.state.list.map(city => {
+        return this.state.list.map(region => {
             return (
-                <tr key={city._id}>
-                    <td>{city.stateName}</td>
-                    <td>{city.name}</td>
-                    <td>{city.searchActive === true ? <i className="fa fa-check"></i> : <i className="fa fa-close"></i>}</td>
+                <tr key={region._id}>
+                    <td>{region.stateName}</td>
+                    <td>{region.name}</td>
+                    <td>{region.searchActive === true ? <i className="fa fa-check"></i> : <i className="fa fa-close"></i>}</td>
                     <td>
                         <button className="btn btn-warning"
-                            onClick={() => this.load(city)}>
+                            onClick={() => this.load(region)}>
                             <i className="fa fa-pencil"></i>
                         </button>
                         <button className="btn btn-danger ml-2"
-                            onClick={() => this.remove(city)}>
+                            onClick={() => this.remove(region)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>
@@ -194,7 +193,6 @@ export default class CityCrud extends Component {
     }
 
     render(){
-        //console.log(this.state.list)
         return (
             <Main {...headerProps}>
                 {this.renderForm()}

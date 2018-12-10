@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getStateUrl } from '../../services';
 //import axios from 'axios'
 
 
 const headerProps = {
     icon: 'hour',
-    title: 'States',
+    title: 'Estados',
     subtitle: 'Cadastro de estados (UF)'
 }
 
-const baseUrl = 'http://localhost:3003/api/states'
+const baseUrl = getStateUrl()
 
 const initialState = {
     state: { name: '', searchActive: ''},
@@ -22,7 +22,7 @@ export default class StateCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-        getAxiosInstance()(baseUrl).then(resp => {
+        getAxiosInstance()(`${baseUrl}?sort=name`).then(resp => {
             //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })

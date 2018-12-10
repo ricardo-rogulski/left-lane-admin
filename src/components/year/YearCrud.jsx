@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getYearUrl } from '../../services';
 
 const headerProps = {
     icon: 'hour',
-    title: 'Years',
+    title: 'Anos',
     subtitle: 'Cadastro de anos (modelo)'
 }
 
-const baseUrl = 'http://localhost:3003/api/years'
+const baseUrl = getYearUrl()
 
 const initialState = {
     year: { name: '', searchActive: ''},
@@ -20,7 +20,7 @@ export default class YearCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-        getAxiosInstance()(baseUrl).then(resp => {
+        getAxiosInstance()(`${baseUrl}?sort=name`).then(resp => {
             //O que recebe no resp.data ele coloca na lista.
             this.setState({ list: resp.data })
         })

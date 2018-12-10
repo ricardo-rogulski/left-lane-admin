@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import axios from 'axios'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getAdminUserUrl, getLoginServiceUrl } from '../../services';
 
 const headerProps = {
     icon: 'users',
     title: 'Usuários',
-    subtitle: 'Cadastro de usuários: Incluir, Listar, Alterar e Excluir!'
+    subtitle: 'Cadastro de usuários Admin'
 }
 
-const baseUrl = 'http://localhost:3003/api/adminUsers'
-var apiUrl = 'http://localhost:3003/oapi'
+const baseUrl = getAdminUserUrl()
+var apiUrl = getLoginServiceUrl()
 
 const initialState = {
     user: { name: '', email: '', password: ''},
@@ -35,7 +34,7 @@ export default class UserCrud extends Component {
     save() {
         const user = this.state.user
         const method = user._id ? 'put' : 'post'
-        const url = user._id ? `${baseUrl}/${user._id}` : baseUrl
+        //const url = user._id ? `${baseUrl}/${user._id}` : baseUrl
 
         if (method === 'post'){
             const requestOptions = {
@@ -43,17 +42,33 @@ export default class UserCrud extends Component {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user })
             };
-        
-            return fetch(`${apiUrl}/signup`, requestOptions)
-                
+            fetch(`${apiUrl}/signup`, requestOptions)
+            .then(resp => {
+                if (resp.ok){
+                    getAxiosInstance()(baseUrl).then(resp => {
+                        //O que recebe no resp.data ele coloca na lista.
+                        this.setState({ list: resp.data })
+                    })
+                    this.setState({ user: initialState.user })
+                }
+            })
     
         } else {
-            getAxiosInstance()[method](url, user)
-                .then(resp => {
-                    const list = this.getUpdatedList(resp.data)
-                //Zera o user do initial state, e seta  a lista atualizada.
-                    this.setState({ user: initialState.user, list })
-                })
+            const requestOptions = {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user })
+            };
+            fetch(`${apiUrl}/change`, requestOptions)
+            .then(resp => {
+                if (resp.ok){
+                    getAxiosInstance()(baseUrl).then(resp => {
+                        //O que recebe no resp.data ele coloca na lista.
+                        this.setState({ list: resp.data })
+                    })
+                    this.setState({ user: initialState.user })
+                }
+            })
         }
             
     }
@@ -101,7 +116,7 @@ export default class UserCrud extends Component {
                     <div className="col-12 col-md-4">
                         <div className="formGroup">
                             <label>Password</label>
-                            <input type="text" className="form-control" 
+                            <input type="password" className="form-control" 
                                 name="password"
                                 value={this.state.user.password}
                                 onChange={e => this.updateField(e)}

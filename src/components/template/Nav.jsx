@@ -26,11 +26,11 @@ export default props =>
             <Link to="/states">
                 <i className="fa fa-globe"></i> Estados
             </Link>
-            <Link to="/cities">
-                <i className="fa fa-industry"></i> Cidades
+            <Link to="/regions">
+                <i className="fa fa-industry"></i> Regiões
             </Link>
-            <Link to="/users">
-                <i className="fa fa-industry"></i> Usuarios
+            <Link to="/adminusers">
+                <i className="fa fa-industry"></i> Usuarios (Admin)
             </Link>
         </nav>
     </aside>

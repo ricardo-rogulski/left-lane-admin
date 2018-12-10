@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getModelUrl, getMakeUrl } from '../../services';
 
 const headerProps = {
     icon: 'hour',
-    title: 'Models',
-    subtitle: 'Cadastro de fabricantes'
+    title: 'Modelos',
+    subtitle: 'Cadastro de modelos de veículos'
 }
 
-const baseUrl = 'http://localhost:3003/api/models'
-const makesUrl = 'http://localhost:3003/api/makes'
+const baseUrl = getModelUrl()
+const makesUrl = getMakeUrl()
 
 const initialState = {
     model: { name: '', searchActive: '', makeId: '', makeName: ''},

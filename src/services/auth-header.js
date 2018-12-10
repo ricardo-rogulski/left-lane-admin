@@ -11,7 +11,8 @@ export function authHeader() {
 }
 
 
-export function getAxiosInstance(){
+export function getAxiosInstance(){  
+    
     let user = JSON.parse(localStorage.getItem('user'));
     if (user && user.token) {
         const axiosInstance = axios.create({

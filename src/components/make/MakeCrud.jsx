@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getMakeUrl } from '../../services';
+
 
 const headerProps = {
     icon: 'hour',
-    title: 'Makes',
+    title: 'Marcas',
     subtitle: 'Cadastro de fabricantes'
 }
 
-const baseUrl = 'http://localhost:3003/api/makes'
+const baseUrl = getMakeUrl()
 
 const initialState = {
     make: { name: '', searchActive: ''},   
@@ -20,11 +21,10 @@ export default class MakeCrud extends Component {
     state = { ...initialState }
 
     componentWillMount(){
-
         getAxiosInstance().get(baseUrl)
             .then(resp => {
                 this.setState({ list: resp.data })
-            })
+        })
     }
 
     clear() {

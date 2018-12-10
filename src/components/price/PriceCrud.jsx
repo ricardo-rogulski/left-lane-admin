@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
-import { getAxiosInstance } from '../../services';
+import { getAxiosInstance, getPriceUrl } from '../../services';
 
 const headerProps = {
     icon: 'hour',
-    title: 'Prices',
+    title: 'Preços',
     subtitle: 'Cadastro de faixa de preços'
 }
 
-const baseUrl = 'http://localhost:3003/api/prices'
+const baseUrl = getPriceUrl()
 
 const initialState = {
     price: { name: '', searchActive: '', minValue: '', maxValue: ''},
